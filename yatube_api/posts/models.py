@@ -30,7 +30,9 @@ class Group(models.Model):
         unique=True,
         verbose_name='Идентификатор'
     )
-    description = models.TextField(verbose_name='Описание')
+    description = models.TextField(
+        verbose_name='Описание',
+    )
 
     def __str__(self):
         return self.title[:RESTRICTION_POST_CHARACTERS]
@@ -40,12 +42,15 @@ class Post(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts'
+        related_name='posts',
+        verbose_name='Автор'
     )
-    text = models.TextField()
+    text = models.TextField(
+        verbose_name='Текст'
+    )
     pub_date = models.DateTimeField(
-        'Дата публикации',
-        auto_now_add=True
+        auto_now_add=True,
+        verbose_name='Дата публикации',
     )
     image = models.ImageField(
         upload_to='posts/',
@@ -70,24 +75,23 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='comments'
+        related_name='comments',
+        verbose_name='Автор',
     )
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments'
+        related_name='comments',
+        verbose_name='Пост',
     )
-    text = models.TextField()
+    text = models.TextField(
+        verbose_name='Комментарий',
+    )
     created = models.DateTimeField(
         'Дата добавления',
         auto_now_add=True,
         db_index=True
     )
-
-    class Meta:
-        verbose_name = 'Коментарий'
-        verbose_name_plural = 'Коментарии'
-        ordering = ('id',)
 
     def __str__(self):
         return self.text
