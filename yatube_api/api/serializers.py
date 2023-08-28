@@ -29,3 +29,24 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Comment
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Group"""
+
+    class Meta:
+        fields = '__all__'
+        model = Group
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Follow"""
+
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
+    )
+
+    class Meta:
+        fields = '__all__'
+        model = Follow
