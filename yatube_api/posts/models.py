@@ -20,6 +20,16 @@ class Follow(models.Model):
         verbose_name='Подписан',
     )
 
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('user', 'following'),
+                name='unique_follow'
+            ),)
+
+    def __str__(self):
+        return f'{self.user} подписчик - {self.following}'
+
 
 class Group(models.Model):
     title = models.CharField(
@@ -67,6 +77,9 @@ class Post(models.Model):
         verbose_name='Группа',
     )
 
+    class Meta:
+        ordering = ('id',)
+
     def __str__(self):
         return self.text[:RESTRICTION_POST_CHARACTERS]
 
@@ -94,4 +107,4 @@ class Comment(models.Model):
     )
 
     def __str__(self):
-        return self.text
+        return self.text[:RESTRICTION_POST_CHARACTERS]
